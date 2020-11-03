@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace YourBestPWrBack.Services
 {
-    interface IAuthRepo
+    public interface IAuthRepo
     {
         public string Auth(string username, string passwordHash);
         public void DeAuth(string username);

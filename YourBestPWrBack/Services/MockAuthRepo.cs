@@ -9,7 +9,7 @@ namespace YourBestPWrBack.Services
     public class MockAuthRepo : IAuthRepo
     {
 
-        private IReadOnlyList<User> users = new[]
+        private IReadOnlyList<User> _users = new[]
         {
             new User
             {
@@ -36,7 +36,7 @@ namespace YourBestPWrBack.Services
 
         public string Auth(string username, string passwordHash)
         {
-            var matchingUser = users.Single(user => user.Name == username);
+            var matchingUser = _users.Single(user => user.Name == username);
             var guid = Guid.NewGuid().ToString();
 
             authorizations.Add(new Authorization
@@ -51,7 +51,7 @@ namespace YourBestPWrBack.Services
 
         public void DeAuth(string username)
         {
-            var matchingUser = users.Single(user => user.Name == username);
+            var matchingUser = _users.Single(user => user.Name == username);
             authorizations.Remove(new Authorization
             {
                 User = matchingUser
