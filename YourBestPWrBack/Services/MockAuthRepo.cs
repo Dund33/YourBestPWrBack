@@ -40,6 +40,16 @@ namespace YourBestPWrBack.Services
             return matchingUser?.AccessType ?? AccessType.Basic;
         }
 
+        public async Task<AccessType> GetAccessTypeAsync(string username)
+        {
+            var accessType = await Task.Run(()=>
+            {
+                var matchingUser = _users.SingleOrDefault(user => user.Name == username);
+                return matchingUser?.AccessType ?? AccessType.Basic;
+            });
+            return accessType;
+        }
+
         public string Auth(string username, string passwordHash)
         {
             var matchingUser = _users.Single(user => user.Name == username);

@@ -20,9 +20,9 @@ namespace YourBestPWrBack.Controllers
 
         //HTTP GET /api/Auth/GetAccessLevel?username=<username>
         [HttpGet]
-        public IActionResult GetAccessLevel(string username)
+        public async Task<IActionResult> GetAccessLevel(string username)
         {
-            var accessType = _authRepo.GetAccessType(username);
+            var accessType = await _authRepo.GetAccessTypeAsync(username);
             return Ok(accessType);
         }
 
