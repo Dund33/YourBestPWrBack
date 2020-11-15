@@ -34,10 +34,8 @@ namespace YourBestPWrBack.Models
             {
                 return Name == user.Name;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public bool Equals([AllowNull] User other)

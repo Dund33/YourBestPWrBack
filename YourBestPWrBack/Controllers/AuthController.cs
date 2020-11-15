@@ -10,45 +10,34 @@ using YourBestPWrBack.Services;
 
 namespace YourBestPWrBack.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepo _authRepo;
-        public AuthController(IAuthRepo authRepo) : base()
+        public AuthController(IAuthRepo authRepo)
         {
             _authRepo = authRepo;
         }
 
-        // GET: api/<AuthController>
+        //HTTP GET /api/Auth/GetAccessLevel?username=<username>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetAccessLevel(string username)
         {
-            return new string[] { "value1", "value2" };
+            var accessType = _authRepo.GetAccessType(username);
+            return Ok(accessType);
         }
 
-        // GET api/<AuthController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<AuthController>
         [HttpPost]
         public void Post([FromBody] AuthRequest authRequest)
         {
             Console.WriteLine($"{authRequest.Username}, {authRequest.PasswordHash}");
         }
 
-        // PUT api/<AuthController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<AuthController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public void Delete(int id)
         {
         }

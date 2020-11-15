@@ -34,6 +34,12 @@ namespace YourBestPWrBack.Services
 
         private readonly List<Authorization> authorizations = new List<Authorization>();
 
+        public AccessType GetAccessType(string username)
+        {
+            var matchingUser = _users.SingleOrDefault(user => user.Name == username);
+            return matchingUser?.AccessType ?? AccessType.Basic;
+        }
+
         public string Auth(string username, string passwordHash)
         {
             var matchingUser = _users.Single(user => user.Name == username);
