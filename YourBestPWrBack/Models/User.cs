@@ -18,7 +18,7 @@ namespace YourBestPWrBack.Models
             return user1?.Name == user2?.Name;
         }
 
-        public static bool operator !=(User user1, User user2)
+        public static bool operator!=(User user1, User user2)
         {
             return user1?.Name != user2?.Name;
         }

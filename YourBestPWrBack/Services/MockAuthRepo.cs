@@ -30,48 +30,57 @@ namespace YourBestPWrBack.Services
             }
         };
 
-        private List<string> tokens = new List<string>();
+        private readonly List<Authorization> _authorizations = new List<Authorization>();
 
-        private readonly List<Authorization> authorizations = new List<Authorization>();
-
-        public AccessType GetAccessType(string username)
+        public AccessType GetAccessType(string token)
         {
-            var matchingUser = _users.SingleOrDefault(user => user.Name == username);
-            return matchingUser?.AccessType ?? AccessType.Basic;
+            var matchingAuthorization = _authorizations
+                .SingleOrDefault(auth => auth.Token == token);
+            var accessLevel = matchingAuthorization?.AccessType ?? AccessType.Basic;
+
+            return accessLevel;
         }
 
-        public async Task<AccessType> GetAccessTypeAsync(string username)
+        public async Task<AccessType> GetAccessTypeAsync(string token)
         {
-            var accessType = await Task.Run(()=>
-            {
-                var matchingUser = _users.SingleOrDefault(user => user.Name == username);
-                return matchingUser?.AccessType ?? AccessType.Basic;
-            });
+            var accessType = await Task.Run(()=>GetAccessType(token));
             return accessType;
         }
 
         public string Auth(string username, string passwordHash)
         {
-            var matchingUser = _users.Single(user => user.Name == username);
+            var matchingUser = _users
+                .Where(user => user.Name == username)
+                .SingleOrDefault(user => user.PasswordHash == passwordHash);
+
+            if (matchingUser is null)
+                return string.Empty;
+
             var guid = Guid.NewGuid().ToString();
 
-            authorizations.Add(new Authorization
+            _authorizations.Add(new Authorization
             {
                 IssuedOn = DateTime.Now,
                 User = matchingUser,
-                AccessType = matchingUser.AccessType
+                AccessType = matchingUser.AccessType,
+                Token = guid
             });
 
             return guid;
         }
 
-        public void DeAuth(string username)
+        public void DeAuth(string token)
         {
-            var matchingUser = _users.Single(user => user.Name == username);
-            authorizations.Remove(new Authorization
-            {
-                User = matchingUser
-            });
+            var matchingAuthorization = _authorizations
+                .Single(auth => auth.Token == token);
+            _authorizations.Remove(matchingAuthorization);
         }
+
+        public bool IsAuthorized(string token) 
+            => _authorizations.Any(auth => auth.Token == token);
+
+        public async Task<bool> IsAuthorizedAsync(string username) 
+            => await Task.Run(() => IsAuthorized(username));
+    
     }
 }

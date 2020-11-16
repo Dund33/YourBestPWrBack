@@ -19,27 +19,24 @@ namespace YourBestPWrBack.Controllers
         }
 
         //HTTP GET /api/Auth/GetAccessLevel?username=<username>
-        [HttpGet]
-        public async Task<IActionResult> GetAccessLevel(string username)
+        [HttpPost]
+        public async Task<IActionResult> GetAccessLevel(string token)
         {
-            var accessType = await _authRepo.GetAccessTypeAsync(username);
+            var accessType = await _authRepo.GetAccessTypeAsync(token);
             return Ok(accessType);
         }
 
         [HttpPost]
-        public void Post([FromBody] AuthRequest authRequest)
+        public string Auth(string username, string passwordHash)
         {
-            Console.WriteLine($"{authRequest.Username}, {authRequest.PasswordHash}");
+            var token = _authRepo.Auth(username, passwordHash);
+            return token;
         }
 
-        [HttpPut]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        public void DeAuth(string token)
         {
-        }
-
-        [HttpDelete]
-        public void Delete(int id)
-        {
+            _authRepo.DeAuth(token);
         }
     }
 }
