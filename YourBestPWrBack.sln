@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourBestPWrBack", "YourBestPWrBack\YourBestPWrBack.csproj", "{E8D0919A-EF8B-4D68-AC58-C7FD8945C8C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourBestPWrBack", "YourBestPWrBack\YourBestPWrBack.csproj", "{E8D0919A-EF8B-4D68-AC58-C7FD8945C8C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D00646FC-CBD0-43DA-8EFF-0BE0048B9787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E8D0919A-EF8B-4D68-AC58-C7FD8945C8C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8D0919A-EF8B-4D68-AC58-C7FD8945C8C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8D0919A-EF8B-4D68-AC58-C7FD8945C8C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00646FC-CBD0-43DA-8EFF-0BE0048B9787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00646FC-CBD0-43DA-8EFF-0BE0048B9787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00646FC-CBD0-43DA-8EFF-0BE0048B9787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00646FC-CBD0-43DA-8EFF-0BE0048B9787}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
