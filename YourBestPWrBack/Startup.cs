@@ -27,6 +27,7 @@ namespace YourBestPWrBack
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IUserRepo, MockUserRepo>();
             services.AddSingleton<IAuthRepo, MockAuthRepo>();
         }
 

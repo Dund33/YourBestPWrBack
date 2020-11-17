@@ -13,9 +13,11 @@ namespace YourBestPWrBack.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepo _authRepo;
-        public AuthController(IAuthRepo authRepo)
+        private readonly IUserRepo _userRepo;
+        public AuthController(IAuthRepo authRepo, IUserRepo userRepo)
         {
             _authRepo = authRepo;
+            _userRepo = userRepo;
         }
 
         //HTTP GET /api/Auth/GetAccessLevel?username=<username>
@@ -29,7 +31,15 @@ namespace YourBestPWrBack.Controllers
         [HttpPost]
         public string Auth(string username, string passwordHash)
         {
-            var token = _authRepo.Auth(username, passwordHash);
+            var matchingUser = _userRepo.GetUser(username);
+
+            if (matchingUser is null)
+                return string.Empty;
+
+            if (matchingUser.PasswordHash != passwordHash)
+                return string.Empty;
+
+            var token = _authRepo.Auth(matchingUser);
             return token;
         }
 

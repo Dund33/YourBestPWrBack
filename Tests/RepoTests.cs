@@ -26,9 +26,7 @@ namespace Tests
         [Test]
         public void TestUnknownUser()
         {
-            var repo = new MockAuthRepo();
-            var accessType = repo.GetAccessType("unknownuser");
-            accessType.IsSameOrEqualTo(0);
+           
         }
 
         [Test]
