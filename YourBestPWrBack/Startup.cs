@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -26,9 +27,11 @@ namespace YourBestPWrBack
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var path = File.ReadAllText("Properties/CosmosPath.txt");
             services.AddControllers();
             services.AddSingleton<IUserRepo, MockUserRepo>();
             services.AddSingleton<IAuthRepo, MockAuthRepo>();
+            services.AddSingleton<IOpinionRepo, OpinionRepo>(provider => new OpinionRepo(path));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

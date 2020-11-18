@@ -8,5 +8,11 @@
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Properties\CosmosPath.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

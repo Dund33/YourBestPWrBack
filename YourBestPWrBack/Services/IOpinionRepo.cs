@@ -6,11 +6,13 @@ using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    interface IOpinionRepo
+    public interface IOpinionRepo
     {
-        public IEnumerable<Opinion> GetOpinionsForLecturer(Lecturer lecturer);
+        public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId);
         public IEnumerable<Lecturer> GetLecturers();
-        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(Lecturer lecturer);
+        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId);
         public Task<IEnumerable<Lecturer>> GetLecturersAsync();
+        public void AddLecturer(Lecturer lecturer);
+        public void AddOpinion(int lecturerId, Opinion opinion);
     }
 }

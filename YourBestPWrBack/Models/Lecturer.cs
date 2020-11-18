@@ -9,7 +9,7 @@ namespace YourBestPWrBack.Models
 {
     public class Lecturer
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; }
         public string LastName { get; } 
         public string Title { get; }
