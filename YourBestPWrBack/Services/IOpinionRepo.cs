@@ -12,5 +12,6 @@ namespace YourBestPWrBack.Services
         public IEnumerable<Lecturer> GetLecturers();
         public void AddLecturer(Lecturer lecturer);
         public void AddOpinion(int lecturerId, Opinion opinion);
+
     }
 }

@@ -19,7 +19,7 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetOpinionsForLecturer(int id)
+        public IActionResult GetOpinionsForLecturer(int id, int _)
         {
             var opinions = _opinionRepo.GetOpinionsForLecturer(id);
             return Ok(opinions);

@@ -63,6 +63,7 @@ namespace YourBestPWrBack.Services
         {
             var collection = GetLecturerCollection();
             var lecturerFromDb = GetLecturerById(lecturerId);
+            lecturerFromDb.Opinions.Add(opinion);
             collection.ReplaceOne(lecturer => lecturer.Id == lecturerId, lecturerFromDb);
         }
     }
