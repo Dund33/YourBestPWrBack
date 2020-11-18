@@ -19,10 +19,15 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetOpinionsForLecturer(int id)
+        public IActionResult GetOpinionsForLecturer(int id)
         {
-            var opinions = await _opinionRepo.GetOpinionsForLecturerAsync(id);
+            var opinions = _opinionRepo.GetOpinionsForLecturer(id);
             return Ok(opinions);
+        }
+
+        public void AddOpinion(int id, Opinion opinion)
+        {
+            _opinionRepo.AddOpinion(id, opinion);
         }
 
         [HttpPost]

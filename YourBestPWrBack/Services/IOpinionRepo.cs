@@ -10,8 +10,6 @@ namespace YourBestPWrBack.Services
     {
         public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId);
         public IEnumerable<Lecturer> GetLecturers();
-        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId);
-        public Task<IEnumerable<Lecturer>> GetLecturersAsync();
         public void AddLecturer(Lecturer lecturer);
         public void AddOpinion(int lecturerId, Opinion opinion);
     }

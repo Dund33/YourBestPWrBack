@@ -8,8 +8,7 @@ namespace YourBestPWrBack.Models
 {
     public class Opinion
     {
-        public int Rating { get; }
-        public string Description { get; }
-        public Opinion(int rating, string description) => (Rating, Description) = (rating, description);
+        public int Rating { get; set; }
+        public string Description { get; set; }
     }
 }

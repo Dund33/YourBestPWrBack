@@ -13,6 +13,13 @@ namespace YourBestPWrBack.Services
     {
         private readonly MongoClient _mongoClient;
 
+        private IMongoCollection<Lecturer> GetLecturerCollection()
+        {
+            var database = _mongoClient.GetDatabase("db1");
+            var collection = database.GetCollection<Lecturer>("lecturers");
+            return collection;
+        }
+
         public OpinionRepo(string connectionString)
         {
             var settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
@@ -21,15 +28,23 @@ namespace YourBestPWrBack.Services
             _mongoClient = new MongoClient(settings);
         }
 
-        public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId)
+        public Lecturer GetLecturerById(int lecturerId)
         {
             var database = _mongoClient.GetDatabase("db1");
             var collection = database.GetCollection<Lecturer>("lecturers");
             //TODO: Fix later. Should work for now
-            var lecturerFromDb = collection
-                .FindSync(l => l.Id == lecturerId)
+            var cursor = collection
+                .FindSync(l => l.Id == lecturerId);
+            cursor.MoveNext();
+            var lecturerFromDb = cursor
                 .Current
                 .FirstOrDefault();
+            return lecturerFromDb;
+        }
+
+        public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId)
+        {
+            var lecturerFromDb = GetLecturerById(lecturerId);
             return lecturerFromDb?.Opinions;
         }
 
@@ -38,39 +53,17 @@ namespace YourBestPWrBack.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId)
-        {
-            var database = _mongoClient.GetDatabase("db1");
-            var collection = database.GetCollection<Lecturer>("lecturers");
-            //TODO: Fix later. Should work for now
-            var cursor = await collection.FindAsync(l => l.Id == lecturerId);
-            await cursor.MoveNextAsync();
-            var lecturerFromDb = cursor.Current.FirstOrDefault();
-            return lecturerFromDb?.Opinions;
-
-        }
-
-        public async Task<IEnumerable<Lecturer>> GetLecturersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddLecturer(Lecturer lecturer)
         {
-            var database = _mongoClient.GetDatabase("db1");
-            var collection = database.GetCollection<Lecturer>("lecturers");
+            var collection = GetLecturerCollection();
             collection.InsertOne(lecturer);
         }
 
         public void AddOpinion(int lecturerId, Opinion opinion)
         {
-            var database = _mongoClient.GetDatabase("db1");
-            var collection = database.GetCollection<Lecturer>("lecturers");
-            //TODO: Fix later. Should work for now
-            var cursor =  collection.Find(l => l.Id == lecturerId).Limit(1).ToCursor();
-            var lecturerFromDb = cursor.Current.FirstOrDefault();
+            var collection = GetLecturerCollection();
+            var lecturerFromDb = GetLecturerById(lecturerId);
             collection.ReplaceOne(lecturer => lecturer.Id == lecturerId, lecturerFromDb);
-
         }
     }
 }
