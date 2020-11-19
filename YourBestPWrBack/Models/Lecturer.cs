@@ -9,14 +9,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace YourBestPWrBack.Models
 {
-    public class Lecturer
+    public class Lecturer: LecturerBasic
     {
-        [BsonId]
-        public BsonObjectId Id { get; init; }
-        public string FirstName { get; init; }
-        public string LastName { get; init; } 
-        public string Title { get; init; }
-        public List<Opinion> Opinions { get; set; }
-     
+        public List<Opinion> Opinions { get; init; }
     }
 }

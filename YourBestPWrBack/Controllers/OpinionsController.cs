@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
+using YourBestPWrBack.Extensions;
 using YourBestPWrBack.Models;
 using YourBestPWrBack.Services;
 
@@ -35,10 +36,10 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public void AddLecturer(Lecturer lecturer)
+        public void AddLecturer(LecturerBasic lecturer)
         {
             Console.WriteLine($"{lecturer.FirstName} {lecturer.LastName}");
-            _opinionRepo.AddLecturer(lecturer);
+            _opinionRepo.AddLecturer(lecturer.ToLecturer());
         }
 
         public async Task<IActionResult> GetLecturers()

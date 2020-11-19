@@ -10,9 +10,9 @@ namespace YourBestPWrBack.Services
     public interface IOpinionRepo
     {
         public IEnumerable<Opinion> GetOpinionsForLecturer(BsonObjectId lecturerId);
-        public IEnumerable<Lecturer> GetLecturers();
         public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(BsonObjectId lecturerId);
-        public Task<IEnumerable<Lecturer>> GetLecturersAsync();
+        public IEnumerable<Lecturer> GetLecturers();
+        public Task<IEnumerable<LecturerBasic>> GetLecturersAsync();
         public void AddLecturer(Lecturer lecturer);
         public void AddOpinion(BsonObjectId lecturerId, Opinion opinion);
 

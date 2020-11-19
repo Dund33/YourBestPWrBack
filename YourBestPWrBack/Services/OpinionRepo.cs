@@ -13,13 +13,9 @@ namespace YourBestPWrBack.Services
     public class OpinionRepo: IOpinionRepo
     {
         private readonly MongoClient _mongoClient;
-        private const string PipelineString = "{ $project: { \"Id\":1 , \"firstName\":1, \"lastName\":1} }";
-        private IMongoCollection<Lecturer> GetLecturerCollection()
-        {
-            var database = _mongoClient.GetDatabase("db1");
-            var collection = database.GetCollection<Lecturer>("lecturers");
-            return collection;
-        }
+        private const string PipelineString = "{ $project: {\"Opinions\":0} }";
+        private const string Name = "db1";
+        private const string CollectionName = "lecturers";
 
         public OpinionRepo(string connectionString)
         {
@@ -29,10 +25,16 @@ namespace YourBestPWrBack.Services
             _mongoClient = new MongoClient(settings);
         }
 
+        private IMongoCollection<Lecturer> GetLecturerCollection()
+        {
+            var database = _mongoClient.GetDatabase(Name);
+            var collection = database.GetCollection<Lecturer>(CollectionName);
+            return collection;
+        }
+
         private Lecturer GetLecturerById(BsonObjectId lecturerId)
         {
-            var database = _mongoClient.GetDatabase("db1");
-            var collection = database.GetCollection<Lecturer>("lecturers");
+            var collection = GetLecturerCollection();
             //TODO: Fix later. Should work for now
             var cursor = collection
                 .FindSync(l => l.Id== lecturerId);
@@ -69,10 +71,10 @@ namespace YourBestPWrBack.Services
             return list;
         }
 
-        public async Task<IEnumerable<Lecturer>> GetLecturersAsync()
+        public async Task<IEnumerable<LecturerBasic>> GetLecturersAsync()
         {
             var collection = GetLecturerCollection();
-            var aggregate = await collection.AggregateAsync(PipelineDefinition<Lecturer,Lecturer>.Create(PipelineString));
+            var aggregate = await collection.AggregateAsync(PipelineDefinition<Lecturer, LecturerBasic>.Create(PipelineString));
             var lecturers = await aggregate.ToListAsync();
             return lecturers;
         }
