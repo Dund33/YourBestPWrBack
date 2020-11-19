@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
     public interface IOpinionRepo
     {
-        public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId);
+        public IEnumerable<Opinion> GetOpinionsForLecturer(BsonObjectId lecturerId);
         public IEnumerable<Lecturer> GetLecturers();
+        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(BsonObjectId lecturerId);
+        public Task<IEnumerable<Lecturer>> GetLecturersAsync();
         public void AddLecturer(Lecturer lecturer);
-        public void AddOpinion(int lecturerId, Opinion opinion);
+        public void AddOpinion(BsonObjectId lecturerId, Opinion opinion);
 
     }
 }

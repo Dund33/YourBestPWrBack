@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using YourBestPWrBack.Models;
 using YourBestPWrBack.Services;
 
@@ -19,21 +21,30 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetOpinionsForLecturer(int id, int _)
+        public async Task<IActionResult> GetOpinionsForLecturer(BsonObjectId id)
         {
-            var opinions = _opinionRepo.GetOpinionsForLecturer(id);
+            var opinions = await _opinionRepo.GetOpinionsForLecturerAsync(id);
             return Ok(opinions);
         }
 
-        public void AddOpinion(int id, Opinion opinion)
+        [HttpPost]
+        public void AddOpinion(string id, Opinion opinion)
         {
-            _opinionRepo.AddOpinion(id, opinion);
+            var bsonId = new BsonObjectId(new ObjectId(id));
+            _opinionRepo.AddOpinion(bsonId, opinion);
         }
 
         [HttpPost]
         public void AddLecturer(Lecturer lecturer)
         {
+            Console.WriteLine($"{lecturer.FirstName} {lecturer.LastName}");
             _opinionRepo.AddLecturer(lecturer);
+        }
+
+        public async Task<IActionResult> GetLecturers()
+        {
+            var lecturers = await _opinionRepo.GetLecturersAsync();
+            return Ok(lecturers);
         }
     }
 }
