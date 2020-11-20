@@ -13,18 +13,18 @@ namespace YourBestPWrBack.Services
             new User
             {
                 AccessType = AccessType.Admin,
-                Name = "Adi2024",
+                UserName = "Adi2024",
                 PasswordHash = "5f4dcc3b5aa765d61d8327deb882cf99", // password
             },
             new User
             {
                 AccessType = AccessType.User,
-                Name = "Manyana",
+                UserName = "Manyana",
                 PasswordHash = "1f82cdf9195b31244721c6026587fb78" //password23
             },
             new User{
                 AccessType = AccessType.Basic,
-                Name = "Skid",
+                UserName = "Skid",
                 PasswordHash = "a21992c8f0aca8b8961b06c8e30eff6c" //password234
             }
         };
@@ -44,6 +44,6 @@ namespace YourBestPWrBack.Services
         }
 
         public User GetUser(string username) 
-            => _users.FirstOrDefault(user => user.Name == username);
+            => _users.FirstOrDefault(user => user.UserName == username);
     }
 }
