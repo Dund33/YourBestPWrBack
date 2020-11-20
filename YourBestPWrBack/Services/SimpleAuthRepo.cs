@@ -6,7 +6,7 @@ using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    public class MockAuthRepo : IAuthRepo
+    public class SimpleAuthRepo : IAuthRepo
     {
 
         private readonly List<Authorization> _authorizations = new List<Authorization>();

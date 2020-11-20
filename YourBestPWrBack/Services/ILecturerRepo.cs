@@ -7,7 +7,7 @@ using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    public interface IOpinionRepo
+    public interface ILecturerRepo
     {
         public IEnumerable<Opinion> GetOpinionsForLecturer(BsonObjectId lecturerId);
         public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(BsonObjectId lecturerId);

@@ -30,8 +30,8 @@ namespace YourBestPWrBack
             var path = File.ReadAllText("Properties/CosmosPath.txt");
             services.AddControllers();
             services.AddSingleton<IUserRepo, MockUserRepo>();
-            services.AddSingleton<IAuthRepo, MockAuthRepo>();
-            services.AddSingleton<IOpinionRepo, OpinionRepo>(provider => new OpinionRepo(path));
+            services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
+            services.AddSingleton<ILecturerRepo, LecturerRepo>(provider => new LecturerRepo(path));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

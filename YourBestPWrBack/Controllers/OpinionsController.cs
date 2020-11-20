@@ -14,37 +14,54 @@ namespace YourBestPWrBack.Controllers
 {
     public class OpinionsController : ControllerBase
     {
-        private IOpinionRepo _opinionRepo;
+        private ILecturerRepo _lecturerRepo;
+        private IAuthRepo _authRepo;
 
-        public OpinionsController(IOpinionRepo opinionRepo)
+        public OpinionsController(ILecturerRepo lecturerRepo, IAuthRepo authRepo)
         {
-            _opinionRepo = opinionRepo;
+            _lecturerRepo = lecturerRepo;
+            _authRepo = authRepo;
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetOpinionsForLecturer(BsonObjectId id)
+        public async Task<IActionResult> GetOpinionsForLecturer(string token, BsonObjectId id)
         {
-            var opinions = await _opinionRepo.GetOpinionsForLecturerAsync(id);
+            var accessType = await _authRepo.GetAccessTypeAsync(token);
+            if (accessType < AccessType.Basic)
+                return Unauthorized();
+
+            var opinions = await _lecturerRepo.GetOpinionsForLecturerAsync(id);
             return Ok(opinions);
         }
 
         [HttpPost]
-        public void AddOpinion(string id, Opinion opinion)
+        public async Task<IActionResult> AddOpinion(string token, string lecturerId, Opinion opinion)
         {
-            var bsonId = new BsonObjectId(new ObjectId(id));
-            _opinionRepo.AddOpinion(bsonId, opinion);
+            var accessType = await _authRepo.GetAccessTypeAsync(token);
+            if (accessType < AccessType.User)
+                return Unauthorized();
+
+            var bsonId = new BsonObjectId(new ObjectId(lecturerId));
+            _lecturerRepo.AddOpinion(bsonId, opinion);
+            return Ok();
         }
 
         [HttpPost]
-        public void AddLecturer(LecturerBasic lecturer)
+        public async Task<IActionResult> AddLecturer(string token, LecturerBasic lecturer)
         {
+
+            var accessType = await _authRepo.GetAccessTypeAsync(token);
+            if (accessType < AccessType.Admin)
+                return Unauthorized();
+
             Console.WriteLine($"{lecturer.FirstName} {lecturer.LastName}");
-            _opinionRepo.AddLecturer(lecturer.ToLecturer());
+            _lecturerRepo.AddLecturer(lecturer.ToLecturer());
+            return Ok();
         }
 
         public async Task<IActionResult> GetLecturers()
         {
-            var lecturers = await _opinionRepo.GetLecturersAsync();
+            var lecturers = await _lecturerRepo.GetLecturersAsync();
             return Ok(lecturers);
         }
     }

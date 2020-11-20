@@ -10,14 +10,14 @@ using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    public class OpinionRepo: IOpinionRepo
+    public class LecturerRepo: ILecturerRepo
     {
         private readonly MongoClient _mongoClient;
         private const string PipelineString = "{ $project: {\"Opinions\":0} }";
         private const string Name = "db1";
         private const string CollectionName = "lecturers";
 
-        public OpinionRepo(string connectionString)
+        public LecturerRepo(string connectionString)
         {
             var settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
             settings.RetryWrites = false;
