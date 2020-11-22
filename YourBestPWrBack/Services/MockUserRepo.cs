@@ -36,11 +36,9 @@ namespace YourBestPWrBack.Services
             _users.Add(user);
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(string username)
         {
-            if (!_users.Contains(user))
-                return;
-            _users.Remove(user);
+            _users.RemoveAll(user => user.UserName == username);
         }
 
         public User GetUser(string username) 
