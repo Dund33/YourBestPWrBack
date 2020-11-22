@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -16,8 +17,14 @@ namespace YourBestPWrBack.Models
         [JsonIgnore]
         [BsonId]
         public BsonObjectId Id { get; init; }
+        [NotNull]
+        [Required]
         public string UserName { get; init; }
+        [NotNull]
+        [Required]
         public string PasswordHash { get; set; }
+        [NotNull]
+        [Required]
         public AccessType AccessType { get; set; }
 
         public static bool operator==(User user1, User user2)
@@ -47,7 +54,7 @@ namespace YourBestPWrBack.Models
 
         public bool Equals([AllowNull] User other)
         {
-            throw new NotImplementedException();
+            return UserName == other?.UserName;
         }
     }
 }

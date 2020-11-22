@@ -14,8 +14,8 @@ namespace YourBestPWrBack.Controllers
 {
     public class OpinionsController : ControllerBase
     {
-        private ILecturerRepo _lecturerRepo;
-        private IAuthRepo _authRepo;
+        private readonly ILecturerRepo _lecturerRepo;
+        private readonly IAuthRepo _authRepo;
 
         public OpinionsController(ILecturerRepo lecturerRepo, IAuthRepo authRepo)
         {
