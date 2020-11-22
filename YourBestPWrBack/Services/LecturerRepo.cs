@@ -1,16 +1,14 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    public class LecturerRepo: ILecturerRepo
+    public class LecturerRepo : ILecturerRepo
     {
         private readonly MongoClient _mongoClient;
         private const string PipelineString = "{ $project: {\"Opinions\":0} }";
@@ -37,7 +35,7 @@ namespace YourBestPWrBack.Services
             var collection = GetLecturerCollection();
             //TODO: Fix later. Should work for now
             var cursor = collection
-                .FindSync(l => l.Id== lecturerId);
+                .FindSync(l => l.Id == lecturerId);
             cursor.MoveNext();
             var lecturerFromDb = cursor
                 .Current

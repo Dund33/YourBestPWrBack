@@ -22,7 +22,7 @@ namespace YourBestPWrBack.Services
 
         public async Task<AccessType> GetAccessTypeAsync(string token)
         {
-            var accessType = await Task.Run(()=>GetAccessType(token));
+            var accessType = await Task.Run(() => GetAccessType(token));
             return accessType;
         }
 
@@ -48,11 +48,11 @@ namespace YourBestPWrBack.Services
             _authorizations.Remove(matchingAuthorization);
         }
 
-        public bool IsAuthorized(string token) 
+        public bool IsAuthorized(string token)
             => _authorizations.Any(auth => auth.Token == token);
 
-        public async Task<bool> IsAuthorizedAsync(string username) 
+        public async Task<bool> IsAuthorizedAsync(string username)
             => await Task.Run(() => IsAuthorized(username));
-    
+
     }
 }

@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
+using System;
+using System.Threading.Tasks;
 using YourBestPWrBack.Extensions;
 using YourBestPWrBack.Models;
 using YourBestPWrBack.Services;

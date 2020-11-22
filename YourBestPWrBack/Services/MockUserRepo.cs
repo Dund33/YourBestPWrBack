@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
 {
-    public class MockUserRepo: IUserRepo
+    public class MockUserRepo : IUserRepo
     {
         private readonly List<User> _users = new List<User>
         {
@@ -41,7 +39,7 @@ namespace YourBestPWrBack.Services
             _users.RemoveAll(user => user.UserName == username);
         }
 
-        public User GetUser(string username) 
+        public User GetUser(string username)
             => _users.FirstOrDefault(user => user.UserName == username);
     }
 }

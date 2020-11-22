@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic.CompilerServices;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace YourBestPWrBack.Models
 {
-    public class User: IEquatable<User>
+    public class User : IEquatable<User>
     {
         [System.Runtime.Serialization.IgnoreDataMember]
         [JsonIgnore]
@@ -27,12 +23,12 @@ namespace YourBestPWrBack.Models
         [Required]
         public AccessType AccessType { get; set; }
 
-        public static bool operator==(User user1, User user2)
+        public static bool operator ==(User user1, User user2)
         {
             return user1?.UserName == user2?.UserName;
         }
 
-        public static bool operator!=(User user1, User user2)
+        public static bool operator !=(User user1, User user2)
         {
             return user1?.UserName != user2?.UserName;
         }
