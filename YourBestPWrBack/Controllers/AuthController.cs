@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using YourBestPWrBack.Services;
 
@@ -25,18 +29,20 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public string Auth(string username, string passwordHash)
+        public IActionResult Auth(string username, string password)
         {
             var matchingUser = _userRepo.GetUser(username);
+            var passwordHashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(password ?? string.Empty));
+            var passwordHash = BitConverter.ToString(passwordHashBytes).Replace("-", string.Empty);
 
             if (matchingUser is null)
-                return string.Empty;
+                return Unauthorized();
 
-            if (matchingUser.PasswordHash != passwordHash)
-                return string.Empty;
+            if (!string.Equals(matchingUser.PasswordHash, passwordHash, StringComparison.InvariantCultureIgnoreCase))
+                return Unauthorized();
 
             var token = _authRepo.Auth(matchingUser);
-            return token;
+            return Ok(token);
         }
 
         [HttpPost]

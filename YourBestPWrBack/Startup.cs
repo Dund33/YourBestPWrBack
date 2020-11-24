@@ -35,6 +35,12 @@ namespace YourBestPWrBack
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(policy =>
+            policy.WithOrigins("https://localhost:44315/*")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
