@@ -32,13 +32,16 @@ namespace YourBestPWrBack.Controllers
         public IActionResult Auth(string username, string password)
         {
             var matchingUser = _userRepo.GetUser(username);
-            var passwordHashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(password ?? string.Empty));
-            var passwordHash = BitConverter.ToString(passwordHashBytes).Replace("-", string.Empty);
 
             if (matchingUser is null)
                 return Unauthorized();
 
-            if (!string.Equals(matchingUser.PasswordHash, passwordHash, StringComparison.InvariantCultureIgnoreCase))
+            var passwordHashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(password ?? string.Empty));
+            var passwordHash = BitConverter.ToString(passwordHashBytes).Replace("-", string.Empty);
+
+            var passwordsMatchIngoreCase = string.Equals(matchingUser.PasswordHash, passwordHash, StringComparison.InvariantCultureIgnoreCase);
+
+            if (!passwordsMatchIngoreCase)
                 return Unauthorized();
 
             var token = _authRepo.Auth(matchingUser);

@@ -36,7 +36,7 @@ namespace YourBestPWrBack.Services
             var collection = GetUserCollection();
             var user = collection
                 .Find(user => user.UserName == username)
-                .First();
+                .FirstOrDefault();
             return user;
         }
 

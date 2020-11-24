@@ -22,8 +22,8 @@ namespace YourBestPWrBack
         {
             var path = File.ReadAllText("Properties/CosmosPath.txt");
             services.AddControllers();
-            services.AddSingleton<IUserRepo, MockUserRepo>();
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
+            services.AddSingleton<IUserRepo, UserRepo>(provider => new UserRepo(path));
             services.AddSingleton<ILecturerRepo, LecturerRepo>(provider => new LecturerRepo(path));
         }
 
