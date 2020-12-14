@@ -33,7 +33,6 @@ namespace YourBestPWrBack.Services
         private Lecturer GetLecturerById(BsonObjectId lecturerId)
         {
             var collection = GetLecturerCollection();
-            //TODO: Fix later. Should work for now
             var cursor = collection
                 .FindSync(l => l.Id == lecturerId);
             cursor.MoveNext();
@@ -46,7 +45,6 @@ namespace YourBestPWrBack.Services
         private async Task<Lecturer> GetLecturerByIdASync(BsonObjectId lecturerId)
         {
             var collection = GetLecturerCollection();
-            //TODO: Fix later. Should work for now
             var cursor = await collection
                 .FindAsync(l => l.Id == lecturerId);
             await cursor.MoveNextAsync();
