@@ -7,12 +7,12 @@ namespace YourBestPWrBack.Services
 {
     public interface ILecturerRepo
     {
-        public IEnumerable<Opinion> GetOpinionsForLecturer(BsonObjectId lecturerId);
-        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(BsonObjectId lecturerId);
-        public IEnumerable<Lecturer> GetLecturers();
+        public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId);
+        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId);
+        public IEnumerable<LecturerBasic> GetLecturers();
         public Task<IEnumerable<LecturerBasic>> GetLecturersAsync();
         public void AddLecturer(Lecturer lecturer);
-        public void AddOpinion(BsonObjectId lecturerId, Opinion opinion);
+        public void AddOpinion(int lecturerId, Opinion opinion);
 
     }
 }

@@ -9,10 +9,11 @@ namespace YourBestPWrBack.Models
         [System.Runtime.Serialization.IgnoreDataMember]
         [JsonIgnore]
         [BsonId]
-        public BsonObjectId Id { get; init; }
+        public BsonObjectId BsonId { get; init; }
+        public int Id { get; set; }
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string Title { get; init; }
-        public string StringID => Id?.ToString() ?? "Error";
+        public string StringID => BsonId?.ToString() ?? "Error";
     }
 }

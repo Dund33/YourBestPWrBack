@@ -20,7 +20,7 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetOpinionsForLecturer(string token, BsonObjectId id)
+        public async Task<IActionResult> GetOpinionsForLecturer(string token, int id)
         {
             var accessType = await _authRepo.GetAccessTypeAsync(token);
             if (accessType < AccessType.Basic)
@@ -31,14 +31,13 @@ namespace YourBestPWrBack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOpinion(string token, string lecturerId, Opinion opinion)
+        public async Task<IActionResult> AddOpinion(string token, int lecturerId, Opinion opinion)
         {
             var accessType = await _authRepo.GetAccessTypeAsync(token);
             if (accessType < AccessType.User)
                 return Unauthorized();
 
-            var bsonId = new BsonObjectId(new ObjectId(lecturerId));
-            _lecturerRepo.AddOpinion(bsonId, opinion);
+            _lecturerRepo.AddOpinion(lecturerId, opinion);
             return Ok();
         }
 

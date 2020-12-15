@@ -21,10 +21,11 @@ namespace YourBestPWrBack
         public void ConfigureServices(IServiceCollection services)
         {
             var path = File.ReadAllText("Properties/CosmosPath.txt");
+            var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
             services.AddControllers();
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
-            services.AddSingleton<IUserRepo, UserRepo>(provider => new UserRepo(path));
-            services.AddSingleton<ILecturerRepo, LecturerRepo>(provider => new LecturerRepo(path));
+            services.AddSingleton<IUserRepo, MockUserRepo>();
+            services.AddSingleton<ILecturerRepo, RelationalLecturerRepo>(provider => new RelationalLecturerRepo(sqlConnString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

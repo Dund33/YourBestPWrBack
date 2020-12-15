@@ -34,7 +34,7 @@ namespace YourBestPWrBack.Services
         {
             var collection = GetLecturerCollection();
             var cursor = collection
-                .FindSync(l => l.Id == lecturerId);
+                .FindSync(l => l.BsonId == lecturerId);
             cursor.MoveNext();
             var lecturerFromDb = cursor
                 .Current
@@ -46,7 +46,7 @@ namespace YourBestPWrBack.Services
         {
             var collection = GetLecturerCollection();
             var cursor = await collection
-                .FindAsync(l => l.Id == lecturerId);
+                .FindAsync(l => l.BsonId == lecturerId);
             await cursor.MoveNextAsync();
             var lecturerFromDb = cursor
                 .Current
@@ -86,7 +86,7 @@ namespace YourBestPWrBack.Services
             var collection = GetLecturerCollection();
             var lecturerFromDb = GetLecturerById(lecturerId);
             lecturerFromDb.Opinions.Add(opinion);
-            collection.ReplaceOne(lecturer => lecturer.Id == lecturerId, lecturerFromDb);
+            collection.ReplaceOne(lecturer => lecturer.BsonId == lecturerId, lecturerFromDb);
         }
 
         public async Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(BsonObjectId lecturerId)
