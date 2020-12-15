@@ -9,10 +9,7 @@ namespace YourBestPWrBack.Models
 {
     public class User : IEquatable<User>
     {
-        [System.Runtime.Serialization.IgnoreDataMember]
-        [JsonIgnore]
-        [BsonId]
-        public BsonObjectId Id { get; init; }
+        public int Id { get; init; }
         [NotNull]
         [Required]
         public string UserName { get; init; }

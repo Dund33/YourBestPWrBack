@@ -11,5 +11,6 @@ namespace YourBestPWrBack.Services
         public void DeAuth(string token);
         public bool IsAuthorized(string token);
         public Task<bool> IsAuthorizedAsync(string token);
+        public User GetUserForToken(string token);
     }
 }

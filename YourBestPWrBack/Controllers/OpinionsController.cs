@@ -37,7 +37,9 @@ namespace YourBestPWrBack.Controllers
             if (accessType < AccessType.User)
                 return Unauthorized();
 
-            _lecturerRepo.AddOpinion(lecturerId, opinion);
+            opinion.LecturerId = lecturerId;
+            opinion.UserId = _authRepo.GetUserForToken(token).Id;
+            _lecturerRepo.AddOpinion(opinion);
             return Ok();
         }
 

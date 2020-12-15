@@ -12,7 +12,9 @@ namespace YourBestPWrBack.Services
     public class RelationalLecturerRepo : ILecturerRepo
     {
         const string GetLecturersSQL = "SELECT * FROM LECTURERS;";
-        const string GetOpinionsSQL = "SELECT * FROM OPINIONS";
+        const string GetOpinionsSQL = "SELECT * FROM OPINIONS;";
+        const string InsertLecturerSQL = "INSERT INTO Lecturers(FirstName, LastName, Title) VALUES (@FirstName, @LastName, @Title);";
+        const string InsertOpinionSQL = "INSERT INTO Opinions(Rating, Description, Date, LecturerId, UserId, CourseId);";
         private readonly string _connectionString;
 
         public RelationalLecturerRepo(string connectionString)
@@ -20,14 +22,16 @@ namespace YourBestPWrBack.Services
             _connectionString = connectionString;
         }
 
-        public void AddLecturer(Lecturer lecturer)
+        public void AddLecturer(LecturerBasic lecturer)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            connection.Execute(InsertLecturerSQL, lecturer);
         }
 
-        public void AddOpinion(int lecturerId, Opinion opinion)
+        public void AddOpinion(Opinion opinion)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            connection.Execute(InsertOpinionSQL, opinion);
         }
 
         public IEnumerable<LecturerBasic> GetLecturers()
