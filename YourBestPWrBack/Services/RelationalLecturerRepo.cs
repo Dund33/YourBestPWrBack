@@ -12,6 +12,7 @@ namespace YourBestPWrBack.Services
     public class RelationalLecturerRepo : ILecturerRepo
     {
         const string GetLecturersSQL = "SELECT * FROM LECTURERS;";
+        const string GetOpinionsSQL = "SELECT * FROM OPINIONS";
         private readonly string _connectionString;
 
         public RelationalLecturerRepo(string connectionString)
@@ -45,12 +46,16 @@ namespace YourBestPWrBack.Services
 
         public IEnumerable<Opinion> GetOpinionsForLecturer(int lecturerId)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            var opinions = connection.Query<Opinion>(GetOpinionsSQL);
+            return opinions;
         }
 
-        public Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId)
+        public async Task<IEnumerable<Opinion>> GetOpinionsForLecturerAsync(int lecturerId)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            var opinions = await connection.QueryAsync<Opinion>(GetOpinionsSQL);
+            return opinions;
         }
     }
 }
