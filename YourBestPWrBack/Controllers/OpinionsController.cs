@@ -39,6 +39,7 @@ namespace YourBestPWrBack.Controllers
 
             opinion.LecturerId = lecturerId;
             opinion.UserId = _authRepo.GetUserForToken(token).Id;
+            opinion.Date = DateTime.Now;
             _lecturerRepo.AddOpinion(opinion);
             return Ok();
         }

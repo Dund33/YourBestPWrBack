@@ -8,6 +8,7 @@ namespace YourBestPWrBack.Models
         public string Description { get; set; }
         public int LecturerId { get; set; }
         public int UserId { get; set; }
+        public int CourseId { get; set; }
         public DateTime Date { get; set; }
     }
 }

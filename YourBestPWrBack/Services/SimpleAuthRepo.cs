@@ -54,5 +54,7 @@ namespace YourBestPWrBack.Services
         public async Task<bool> IsAuthorizedAsync(string username)
             => await Task.Run(() => IsAuthorized(username));
 
+        public User GetUserForToken(string token)
+            => _authorizations.Where(a => a.Token == token).FirstOrDefault()?.User;
     }
 }

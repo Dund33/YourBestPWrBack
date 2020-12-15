@@ -14,7 +14,7 @@ namespace YourBestPWrBack.Services
         const string GetLecturersSQL = "SELECT * FROM LECTURERS;";
         const string GetOpinionsSQL = "SELECT * FROM OPINIONS;";
         const string InsertLecturerSQL = "INSERT INTO Lecturers(FirstName, LastName, Title) VALUES (@FirstName, @LastName, @Title);";
-        const string InsertOpinionSQL = "INSERT INTO Opinions(Rating, Description, Date, LecturerId, UserId, CourseId);";
+        const string InsertOpinionSQL = "INSERT INTO Opinions(Rating, Description, Date, LecturerId, UserId, CourseId) VALUES (@Rating, @Description, @Date, @LecturerId, @UserId, @CourseId);";
         private readonly string _connectionString;
 
         public RelationalLecturerRepo(string connectionString)
