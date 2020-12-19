@@ -1,9 +1,11 @@
+using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Reflection;
 using YourBestPWrBack.Services;
 
 namespace YourBestPWrBack
@@ -26,6 +28,12 @@ namespace YourBestPWrBack
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
             services.AddSingleton<IUserRepo, MockUserRepo>();
             services.AddSingleton<ILecturerRepo, RelationalLecturerRepo>(provider => new RelationalLecturerRepo(sqlConnString));
+            services.AddLogging(c => c.AddFluentMigratorConsole())
+                .AddFluentMigratorCore()
+                .ConfigureRunner(c => c
+                .AddMySql5()
+                .WithGlobalConnectionString(sqlConnString)
+                .ScanIn(Assembly.GetExecutingAssembly()).For.All());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +62,12 @@ namespace YourBestPWrBack
                     name: "default",
                     pattern: "{controller}/{action}");
             });
+
+            using var scope = app.ApplicationServices.CreateScope();
+            var runner = scope.ServiceProvider.GetService<IMigrationRunner>();
+            runner.ListMigrations();
+            runner.MigrateDown(0);
+            runner.MigrateUp(1);
         }
     }
 }

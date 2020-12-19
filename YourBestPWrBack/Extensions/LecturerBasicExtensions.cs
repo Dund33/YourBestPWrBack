@@ -8,7 +8,6 @@ namespace YourBestPWrBack.Extensions
         public static Lecturer ToLecturer(this LecturerBasic lecturerBasic)
             => new Lecturer
             {
-                BsonId = lecturerBasic.BsonId,
                 FirstName = lecturerBasic.FirstName,
                 LastName = lecturerBasic.LastName,
                 Title = lecturerBasic.Title,

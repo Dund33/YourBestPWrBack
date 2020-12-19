@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using MongoDB.Bson;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
