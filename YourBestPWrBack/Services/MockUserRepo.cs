@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using YourBestPWrBack.Models;
 
 namespace YourBestPWrBack.Services
@@ -44,5 +45,8 @@ namespace YourBestPWrBack.Services
 
         public User GetUser(string username)
             => _users.FirstOrDefault(user => user.UserName == username);
+
+        public async Task<User> GetUserAsync(string username)
+            => GetUser(username);
     }
 }

@@ -67,7 +67,7 @@ namespace YourBestPWrBack
             var runner = scope.ServiceProvider.GetService<IMigrationRunner>();
             runner.ListMigrations();
             runner.MigrateDown(0);
-            runner.MigrateUp(1);
+            runner.MigrateUp(2);
         }
     }
 }

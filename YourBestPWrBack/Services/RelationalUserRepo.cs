@@ -1,8 +1,5 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using YourBestPWrBack.Models;
@@ -12,7 +9,8 @@ namespace YourBestPWrBack.Services
     public class RelationalUserRepo : IUserRepo
     {
         private const string AddUserSQL = "INSERT INTO Users(Username, PasswordHash, GenderId) VALUES (@UserName, @PasswordHash, @GenderId);";
-        private const string GetUserSQL = "SELECT * FROM Users";
+        private const string GetUserSQL = "SELECT * FROM Users WHERE Username = @Username";
+        private const string RemoveUserSQL = "DELETE FROM Users WHERE Username = @UserName";
         private readonly string _connectionString;
         public RelationalUserRepo(string connectionString)
         {
@@ -33,12 +31,22 @@ namespace YourBestPWrBack.Services
 
         public User GetUser(string username)
         {
-            throw new NotImplementedException();
+            using var connection = new MySqlConnection(_connectionString);
+            return connection.Query<User>(GetUserSQL).FirstOrDefault();
+        }
+
+        public async Task<User> GetUserAsync(string username)
+        {
+            using var connection = new MySqlConnection(_connectionString);
+            var users = await connection.QueryAsync<User>(GetUserSQL);
+            return users.FirstOrDefault();
         }
 
         public void RemoveUser(string username)
         {
-            throw new NotImplementedException();
+            var data = new { UserName = username };
+            using var connection = new MySqlConnection(_connectionString);
+            var users = connection.Execute(RemoveUserSQL, data);
         }
     }
 }

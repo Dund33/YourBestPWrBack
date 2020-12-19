@@ -11,12 +11,13 @@ namespace YourBestPWrBack.Migrations
     {
         public override void Down()
         {
-            Delete.Table("Users");
-            Delete.Table("Genders");
+ 
             Delete.Table("Opinions");
+            Delete.Table("LecturersCourses");
             Delete.Table("Courses");
             Delete.Table("Lecturers");
-            Delete.Table("LecturersCourses");
+            Delete.Table("Users");
+            Delete.Table("Genders");
         }
 
         public override void Up()
@@ -25,6 +26,7 @@ namespace YourBestPWrBack.Migrations
             Create.Table("Genders")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
                 .WithColumn("GenderDescription").AsString(45);
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.Table("Opinions")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
@@ -34,20 +36,24 @@ namespace YourBestPWrBack.Migrations
                 .WithColumn("LecturerId").AsInt32()
                 .WithColumn("UserId").AsInt32()
                 .WithColumn("CourseId").AsInt32();
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.Table("Courses")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
                 .WithColumn("CourseName").AsString(64);
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.Table("Lecturers")
                  .WithColumn("Id").AsInt32().Identity().PrimaryKey()
                  .WithColumn("FirstName").AsString(64)
                  .WithColumn("LastName").AsString(64)
                  .WithColumn("Title").AsString(64);
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.Table("LecturersCourses")
                 .WithColumn("LecturerId").AsInt32().PrimaryKey()
                 .WithColumn("CourseId").AsInt32().PrimaryKey();
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.Table("Users")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
@@ -59,14 +65,17 @@ namespace YourBestPWrBack.Migrations
             Create.ForeignKey("fkLecturerId")
                 .FromTable("Opinions").ForeignColumn("LecturerId")
                 .ToTable("Lecturers").PrimaryColumn("Id");
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.ForeignKey("fkUserId")
                 .FromTable("Opinions").ForeignColumn("UserId")
                 .ToTable("Users").PrimaryColumn("Id");
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
 
             Create.ForeignKey("fkCourseId")
                 .FromTable("Opinions").ForeignColumn("CourseId")
                 .ToTable("Courses").PrimaryColumn("Id");
+            //Execute.Sql("ALTER TABLE Users AUTO_INCREMENT = 0");
         }
     }
 }
