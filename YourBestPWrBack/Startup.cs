@@ -26,7 +26,7 @@ namespace YourBestPWrBack
             var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
             services.AddControllers();
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
-            services.AddSingleton<IUserRepo, MockUserRepo>();
+            services.AddSingleton<IUserRepo, RelationalUserRepo>(provider => new RelationalUserRepo(sqlConnString));
             services.AddSingleton<ILecturerRepo, RelationalLecturerRepo>(provider => new RelationalLecturerRepo(sqlConnString));
             services.AddLogging(c => c.AddFluentMigratorConsole())
                 .AddFluentMigratorCore()

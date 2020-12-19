@@ -9,7 +9,7 @@ namespace YourBestPWrBack.Services
     public class RelationalUserRepo : IUserRepo
     {
         private const string AddUserSQL = "INSERT INTO Users(Username, PasswordHash, GenderId) VALUES (@UserName, @PasswordHash, @GenderId);";
-        private const string GetUserSQL = "SELECT * FROM Users WHERE Username = @Username";
+        private const string GetUserSQL = "SELECT * FROM Users WHERE Username = @UserName";
         private const string RemoveUserSQL = "DELETE FROM Users WHERE Username = @UserName";
         private readonly string _connectionString;
         public RelationalUserRepo(string connectionString)
@@ -32,7 +32,7 @@ namespace YourBestPWrBack.Services
         public User GetUser(string username)
         {
             using var connection = new MySqlConnection(_connectionString);
-            return connection.Query<User>(GetUserSQL).FirstOrDefault();
+            return connection.Query<User>(GetUserSQL, new { UserName = username }).FirstOrDefault();
         }
 
         public async Task<User> GetUserAsync(string username)

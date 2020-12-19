@@ -24,9 +24,9 @@ namespace YourBestPWrBack.Migrations
             Insert.IntoTable("Genders").Row(new {GenderDescription = "K" });
             Insert.IntoTable("Genders").Row(new { GenderDescription = "M" });
             Insert.IntoTable("Users").Row(new { Username = "John", PasswordHash = "9ed1515819dec61fd361d5fdabb57f41ecce1a5fe1fe263b98c0d6943b9b232e", 
-                GenderId = 1, AccessType = 'U'}); //haslo pizza
+                GenderId = 1, AccessType = AccessType.User}); //haslo pizza
             Insert.IntoTable("Users").Row(new { Username = "someUser", PasswordHash = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", 
-                GenderId = 2, AccessType = 'U'}); //haslo password
+                GenderId = 2, AccessType = AccessType.User}); //haslo password
             Insert.IntoTable("Lecturers").Row(new { FirstName = "John", LastName = "Smith", Title = "Doktor" });
             Insert.IntoTable("Lecturers").Row(new { FirstName = "Jan", LastName = "Kowalski", Title = "Profesor" });
             Insert.IntoTable("Courses").Row(new { CourseName = "Databases" });

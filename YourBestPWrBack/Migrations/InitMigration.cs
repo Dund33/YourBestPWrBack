@@ -60,7 +60,7 @@ namespace YourBestPWrBack.Migrations
                 .WithColumn("Username").AsString(32)
                 .WithColumn("PasswordHash").AsFixedLengthString(64)
                 .WithColumn("GenderId").AsInt32().Nullable().ForeignKey("Genders", "Id");
-            Execute.Sql("ALTER TABLE Users ADD AccessType ENUM('N','U','A') NOT NULL;");
+            Execute.Sql("ALTER TABLE Users ADD AccessType ENUM('Basic','User','Admin') NOT NULL;");
 
             Create.ForeignKey("fkLecturerId")
                 .FromTable("Opinions").ForeignColumn("LecturerId")
