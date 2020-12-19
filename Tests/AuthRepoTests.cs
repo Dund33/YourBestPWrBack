@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YourBestPWrBack;
 using YourBestPWrBack.Models;
 using YourBestPWrBack.Services;
 
@@ -32,11 +33,6 @@ namespace Tests
             var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
             runner.MigrateDown(0);
             runner.MigrateUp(1);
-        }
-
-        private void AddDummyAuth(User user)
-        {
-            _authRepo.Auth(user);
         }
 
         [SetUp]
@@ -64,6 +60,26 @@ namespace Tests
             var username = "asdfg";
             var token = _authRepo.Auth(new User { UserName = username });
             _authRepo.IsAuthorized(token).Should().BeTrue();
+        }
+
+        [Test]
+        public void TestAccessLevelUnauthorized()
+        {
+            _authRepo.GetAccessType(string.Empty).Should().Be(AccessType.Basic);
+        }
+
+        [Test]
+        public void TestUnauthorizedAsync()
+        {
+            _authRepo.IsAuthorizedAsync(string.Empty).Result.Should().BeFalse();
+        }
+
+        [Test]
+        public void TestAuthorizedAsync()
+        {
+            var username = "asdfg";
+            var token = _authRepo.Auth(new User { UserName = username });
+            _authRepo.IsAuthorizedAsync(token).Result.Should().BeTrue();
         }
     }
 }
