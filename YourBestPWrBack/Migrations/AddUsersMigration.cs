@@ -10,11 +10,17 @@ namespace YourBestPWrBack.Migrations
     {
         public override void Down()
         {
-            throw new NotImplementedException();
+            Delete.Table("Users");
         }
 
         public override void Up()
         {
+            Create.Table("Users")
+                .WithColumn("Id").AsInt32().Identity().PrimaryKey()
+                .WithColumn("Username").AsString(32)
+                .WithColumn("PasswordHash").AsFixedLengthString(64)
+                .WithColumn("GenderId").AsInt32().ForeignKey("Genders", "Id");
+            Execute.Sql("ALTER TABLE Users ADD AccessType ENUM('N','U','A') NOT NULL;");
         }
     }
 }
