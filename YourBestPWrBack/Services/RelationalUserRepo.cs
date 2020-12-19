@@ -23,7 +23,7 @@ namespace YourBestPWrBack.Services
             connection.Open();
             using var transaction = connection.BeginTransaction();
             var rowsAffected = connection.Execute(AddUserSQL, user);
-            
+
             if (rowsAffected != 1)
                 transaction.Rollback();
             else

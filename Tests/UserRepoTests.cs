@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Reflection;
-using YourBestPWrBack.Migrations;
 using YourBestPWrBack.Services;
 
 namespace Tests

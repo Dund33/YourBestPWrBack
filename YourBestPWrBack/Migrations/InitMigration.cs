@@ -1,8 +1,4 @@
 ﻿using FluentMigrator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace YourBestPWrBack.Migrations
 {
@@ -11,7 +7,7 @@ namespace YourBestPWrBack.Migrations
     {
         public override void Down()
         {
- 
+
             Delete.Table("Opinions");
             Delete.Table("LecturersCourses");
             Delete.Table("Courses");

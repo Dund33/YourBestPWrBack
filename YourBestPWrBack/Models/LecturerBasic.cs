@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace YourBestPWrBack.Models
+﻿namespace YourBestPWrBack.Models
 {
     public class LecturerBasic
     {
