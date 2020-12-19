@@ -17,6 +17,7 @@ namespace YourBestPWrBack.Models
         [NotNull]
         [Required]
         public AccessType AccessType { get; set; }
+        public int? GenderId { get; set; }
 
         public static bool operator ==(User user1, User user2)
         {

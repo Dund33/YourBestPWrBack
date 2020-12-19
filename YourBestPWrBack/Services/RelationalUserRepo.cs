@@ -20,6 +20,7 @@ namespace YourBestPWrBack.Services
         public void AddUser(User user)
         {
             using var connection = new MySqlConnection(_connectionString);
+            connection.Open();
             using var transaction = connection.BeginTransaction();
             var rowsAffected = connection.Execute(AddUserSQL, user);
             
@@ -38,7 +39,7 @@ namespace YourBestPWrBack.Services
         public async Task<User> GetUserAsync(string username)
         {
             using var connection = new MySqlConnection(_connectionString);
-            var users = await connection.QueryAsync<User>(GetUserSQL);
+            var users = await connection.QueryAsync<User>(GetUserSQL, new { UserName = username });
             return users.FirstOrDefault();
         }
 
@@ -46,7 +47,15 @@ namespace YourBestPWrBack.Services
         {
             var data = new { UserName = username };
             using var connection = new MySqlConnection(_connectionString);
-            var users = connection.Execute(RemoveUserSQL, data);
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+
+            var rowsAffected = connection.Execute(RemoveUserSQL, data);
+
+            if (rowsAffected != 1)
+                transaction.Rollback();
+            else
+                transaction.Commit();
         }
     }
 }

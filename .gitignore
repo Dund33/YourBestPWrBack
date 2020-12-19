@@ -342,3 +342,4 @@ healthchecksdb
 #CosmosDB path
 CosmosPath.txt
 /YourBestPWrBack/Properties/SQLString.txt
+/Tests/Properties/SQLString.txt
