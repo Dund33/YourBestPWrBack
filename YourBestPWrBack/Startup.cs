@@ -22,7 +22,6 @@ namespace YourBestPWrBack
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var path = File.ReadAllText("Properties/CosmosPath.txt");
             var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
             services.AddControllers();
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
@@ -65,9 +64,9 @@ namespace YourBestPWrBack
 
             using var scope = app.ApplicationServices.CreateScope();
             var runner = scope.ServiceProvider.GetService<IMigrationRunner>();
-            runner.ListMigrations();
-            runner.MigrateDown(0);
-            runner.MigrateUp(2);
+            runner?.ListMigrations();
+            runner?.MigrateDown(0);
+            runner?.MigrateUp(3);
         }
     }
 }

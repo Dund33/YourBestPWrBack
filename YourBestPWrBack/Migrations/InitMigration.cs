@@ -44,7 +44,8 @@ namespace YourBestPWrBack.Migrations
 
             Create.Table("LecturersCourses")
                 .WithColumn("LecturerId").AsInt32().PrimaryKey()
-                .WithColumn("CourseId").AsInt32().PrimaryKey();
+                .WithColumn("CourseId").AsInt32().PrimaryKey()
+                .WithColumn("AverageRating").AsFloat();
 
             Create.Table("Users")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
