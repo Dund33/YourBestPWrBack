@@ -38,8 +38,9 @@ namespace YourBestPWrBack.Migrations
             Insert.IntoTable("Lecturers").Row(new { FirstName = "Jan", LastName = "Kowalski", Title = "Profesor" });
             Insert.IntoTable("Courses").Row(new { CourseName = "Databases" });
             Insert.IntoTable("Opinions").Row(new { Rating = 3, Description = "good", Date = DateTime.Now, LecturerId = 1, UserId = 2, CourseId = 1 });
-            Insert.IntoTable("LecturersCourses").Row(new {LecturerId = 1, CourseId = 1, AverageRating = 3.0f });
-
+            Insert.IntoTable("Opinions").Row(new { Rating = 4, Description = "good", Date = DateTime.Now, LecturerId = 2, UserId = 1, CourseId = 1 });
+            Insert.IntoTable("LecturersCourses").Row(new {LecturerId = 1, CourseId = 1, AverageRating = 0f});
+            Insert.IntoTable("LecturersCourses").Row(new {LecturerId = 2, CourseId = 1, AverageRating = 0f});
         }
     }
 }
