@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
+using YourBestPWrBack.Factories;
 using YourBestPWrBack.Services;
 
 namespace YourBestPWrBack
@@ -25,8 +26,8 @@ namespace YourBestPWrBack
             var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
             services.AddControllers();
             services.AddSingleton<IAuthRepo, SimpleAuthRepo>();
-            services.AddSingleton<IUserRepo, RelationalUserRepo>(provider => new RelationalUserRepo(sqlConnString));
-            services.AddSingleton<ILecturerRepo, RelationalLecturerRepo>(provider => new RelationalLecturerRepo(sqlConnString));
+            services.AddSingleton<IUserRepo, RelationalUserRepo>(_ => new RelationalUserRepo(new MySqlConnectionFactory(sqlConnString)));
+            services.AddSingleton<ILecturerRepo, RelationalLecturerRepo>(_ => new RelationalLecturerRepo(new MySqlConnectionFactory(sqlConnString)));
             services.AddLogging(c => c.AddFluentMigratorConsole())
                 .AddFluentMigratorCore()
                 .ConfigureRunner(c => c

@@ -13,13 +13,14 @@ namespace Tests
     class AuthRepoTests
     {
         private IAuthRepo _authRepo;
-        private static IServiceProvider CreateServices(string sqlConnString)
+        private const string MemoryConnString = "Data Source=:memory:";
+        private static IServiceProvider CreateServices()
         {
             return new ServiceCollection().AddLogging(c => c.AddFluentMigratorConsole())
                .AddFluentMigratorCore()
                .ConfigureRunner(c => c
-               .AddMySql5()
-               .WithGlobalConnectionString(sqlConnString)
+               .AddSQLite()
+               .WithGlobalConnectionString(MemoryConnString)
                .ScanIn(AppDomain.CurrentDomain.Load("YourBestPWrBack")).For.All())
                .BuildServiceProvider(false);
         }
@@ -34,9 +35,8 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
             _authRepo = new SimpleAuthRepo();
-            var serviceProvider = CreateServices(sqlConnString);
+            var serviceProvider = CreateServices();
 
             // Put the database update into a scope to ensure
             // that all resources will be disposed.

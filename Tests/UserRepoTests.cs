@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 using System.IO;
+using YourBestPWrBack.Factories;
 using YourBestPWrBack.Services;
 
 namespace Tests
@@ -12,13 +13,14 @@ namespace Tests
     {
 
         private IUserRepo _userRepo;
-        private static IServiceProvider CreateServices(string sqlConnString)
+        private const string MemoryConnString = "Data Source=:memory:;Version=3;New=True;";
+        private static IServiceProvider CreateServices()
         {
             return new ServiceCollection().AddLogging(c => c.AddFluentMigratorConsole())
                .AddFluentMigratorCore()
                .ConfigureRunner(c => c
-               .AddMySql5()
-               .WithGlobalConnectionString(sqlConnString)
+               .AddSQLite()
+               .WithGlobalConnectionString(MemoryConnString)
                .ScanIn(AppDomain.CurrentDomain.Load("YourBestPWrBack")).For.All())
                .BuildServiceProvider(false);
         }
@@ -44,9 +46,8 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            var sqlConnString = File.ReadAllText("Properties/SQLString.txt");
-            _userRepo = new RelationalUserRepo(sqlConnString);
-            var serviceProvider = CreateServices(sqlConnString);
+            _userRepo = new RelationalUserRepo(new SqLiteConnectionFactory(MemoryConnString));
+            var serviceProvider = CreateServices();
 
             // Put the database update into a scope to ensure
             // that all resources will be disposed.
