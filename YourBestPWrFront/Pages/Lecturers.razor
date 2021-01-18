@@ -1,0 +1,110 @@
+﻿@page "/Lecturers"
+@page "/Lecturers/{token}"
+@inject HttpClient Http
+@inject TokenService token
+@inject NavigationManager NavigationManager
+@using Models
+@using Services
+
+@if (LecturerList == null)
+{
+    <p><em>Loading...</em></p>
+    <p>Lista jest pusta</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tytuł</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lecturer in LecturerList)
+            {
+                current = lecturer.Id;
+                <tr>
+                    <td>@lecturer.Title</td>
+                    <td>@lecturer.FirstName</td>
+                    <td>@lecturer.LastName</td>
+
+                    <td>
+                        @if (tokenNew == null)
+                        {<p>Zaloguj się żeby poznać opinie</p>
+                        }
+                        else
+                        {
+                            <a href="/LecturerPage/@tokenNew/@current.ToString()">Pokaż opinie</a>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (tokenNew == null)
+    {
+        <div><a href="/Login"></a>Zaloguj się, żeby dodać wykładowcę</div>}
+    else
+    {
+        <EditForm Model="@LecturerNew" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label for="firstName">Imie</label>
+            <InputText DisplayName="Imie" id="firstName" @bind-Value="firstName" />
+            <label for="lastName">Nazwisko</label>
+            <InputText DisplayName="Nazwisko" id="lastName" @bind-Value="lastName" />
+            <label for="title">Tytuł</label>
+            <InputText DisplayName="Tytuł" id="title" @bind-Value="title" />
+
+            <button type="submit">Dodaj</button>
+        </EditForm>
+        <div>
+            @Result
+    </div>
+        }
+
+    }
+
+@code {
+    public int current = 0;
+    public LecturerBasic[] LecturerList { get; set; }
+    public LecturerBasic LecturerNew { get; init; } = new LecturerBasic();
+    public string firstName;
+    public string lastName;
+    public string title;
+    [Parameter]
+    public string Token { get; set; }
+    public string tokenNew;
+    public string Result { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+
+        LecturerList = await Http.GetFromJsonAsync<LecturerBasic[]>("https://localhost:44315/Opinions/GetLecturers");
+        tokenNew = Token;
+    }
+
+
+    public async Task HandleValidSubmit()
+    {
+
+        var content = new FormUrlEncodedContent(new[]
+        {
+                new KeyValuePair<string, string>("LastName", lastName),
+                new KeyValuePair<string, string>("FirstName", firstName),
+                new KeyValuePair<string, string>("Title", title),
+                new KeyValuePair<string, string>("token", Token)
+        });
+
+        using var response = await Http.PostAsync("https://localhost:44315/Opinions/AddLecturer", content);
+        Result = response.ToString();
+
+
+    }
+}

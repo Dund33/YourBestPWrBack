@@ -1,0 +1,26 @@
+﻿@page "/Logged/{token}"
+@inject HttpClient Http
+@inject TokenService token
+@inject NavigationManager NavigationManager
+@inject NavigationManager UriHelper
+@using Models
+@using Services
+<button @onclick="@GoToUsers">Zarządzaj użytkownikami</button>
+<button @onclick="@GoToLecturers">Zarządzaj wykładowcami</button>
+
+
+
+@code {
+    [Parameter]
+    public string Token { get; set; }
+    public async Task GoToUsers()
+    {
+        UriHelper.NavigateTo("/Users/" + Token);
+    }
+    public async Task GoToLecturers()
+    {
+        UriHelper.NavigateTo("/Lecturers/" + Token);
+    }
+
+
+}

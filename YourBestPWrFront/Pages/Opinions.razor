@@ -1,0 +1,47 @@
+﻿@page "/Opinions"
+@inject HttpClient Http
+@inject TokenService token
+@inject NavigationManager NavigationManager
+@using Models
+@using Services
+
+@if (OpinionList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+
+        </thead>
+        <tbody>
+            @foreach (var opinion in OpinionList)
+            {
+                <tr>
+                    <td>@opinion.Rating</td>
+                    <td>@opinion.Description</td>
+                   
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}
+
+@code {
+    public Opinion[] OpinionList { get; set; }
+    public Opinion Opinion { get; set; } = new Opinion();
+    public string Token { get; set; }
+    public LecturerBasic[] LecturerList { get; set; }
+    public LecturerBasic Lecturer { get; set; } = new LecturerBasic();
+
+    protected override async Task OnInitializedAsync()
+    {
+        LecturerList = await Http.GetFromJsonAsync<LecturerBasic[]>("https://localhost:44315/Opinions/GetLecturers");
+        OpinionList = await Http.GetFromJsonAsync<Opinion[]>("https://localhost:44315/Opinions/GetOpinionsForLecturer");
+
+    }
+}

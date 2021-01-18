@@ -1,0 +1,103 @@
+﻿@page "/LecturerPage/{token}/{current}"
+@inject HttpClient Http
+@inject TokenService token
+@inject NavigationManager NavigationManager
+@using Models
+@using Services
+
+@if (LecturerList == null)
+{
+    <p><em>Loading...</em></p>
+    <p>pusto</p>
+}
+else
+{
+    <h3>@ThisLecturer.FirstName @ThisLecturer.LastName: @ThisLecturer.Title </h3>
+    <div>
+        <table class="table">
+            <thead>
+
+                <tr>
+                    <th>Ocena</th>
+                    <th>Ocena opisowa</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Opinion opinion in OpinionList)
+                { if(opinion.LecturerId == id) { 
+                    <tr>
+                        <td>@opinion.Rating</td>
+                        <td>@opinion.Description</td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <EditForm Model="@OpinionNew" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <label for="rating">Ocena</label><br />
+        <InputNumber DisplayName="Ocena" id="rating" @bind-Value="@OpinionNew.Rating" /><br />
+        <label for="desc">Description</label><br />
+        <InputTextArea DisplayName="Descripton" id="desc" @bind-Value="@OpinionNew.Description" /><br />
+        
+
+        <button type="submit">Dodaj</button>
+    </EditForm>
+    <div>
+        @Result
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Current { get; set; }
+    [Parameter]
+    public string Token { get; set; }
+    public int id;
+    public string tokenNew;
+    public Lecturer[] LecturerList { get; set; }
+    public Lecturer ThisLecturer { get; set; }
+
+    public List<Opinion> OpinionList { get; set; } = new List<Opinion>();
+    public Opinion OpinionNew { get; set; } = new Opinion();
+
+    public string Result { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        LecturerList = await Http.GetFromJsonAsync<Lecturer[]>("https://localhost:44315/Opinions/GetLecturers");
+        id = int.Parse(Current);
+        tokenNew = Token;
+        foreach (Lecturer lecturer in LecturerList)
+        {
+            if (lecturer.Id == id)
+            {
+                ThisLecturer = lecturer;
+            }
+           
+            OpinionList = await Http.GetFromJsonAsync<List<Opinion>>("https://localhost:44315/Opinions/GetOpinionsForLecturer/{tokenNew}/{id}");
+
+        }
+    }
+    public async Task HandleValidSubmit()
+    {
+
+        var content = new FormUrlEncodedContent(new[]
+        {
+                new KeyValuePair<string, string>("Rating", OpinionNew.Rating.ToString()),
+                new KeyValuePair<string, string>("Description", OpinionNew.Description),
+                new KeyValuePair<string, string>("LecturerId", id.ToString()),
+                new KeyValuePair<string, string>("CourseId", "1"),
+                new KeyValuePair<string, string>("token", Token)
+        });
+
+        using var response = await Http.PostAsync("https://localhost:44315/Opinions/AddOpinion", content);
+        Result = response.ToString();
+    }
+
+}

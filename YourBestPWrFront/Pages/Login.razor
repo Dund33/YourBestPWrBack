@@ -1,0 +1,69 @@
+﻿@page "/Login"
+@using Services
+@using System.Security.Cryptography
+@using System.Text
+@inject TokenService tokenService
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+@using System.Net.Http
+<h3>Login</h3>
+<p>
+    Nazwa użytkownika<br />
+    <input @bind="UserName" />
+</p>
+
+<p>
+    Hasło<br />
+    <input @bind="Password" />
+</p>
+
+
+
+<button @onclick="RetrieveToken">Zaloguj się</button>
+<br />
+<div>@Level</div>
+
+
+
+
+@code {
+    public string UserName { get; set; }
+    public string Password { get; set; }
+
+    public string Token { get; set; } = "";
+    public string Level { get; set; } = "";
+
+
+    public async Task RetrieveToken()
+    {
+        var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("username", UserName),
+                new KeyValuePair<string, string>("password", Password)
+            });
+
+        var response = await Http.PostAsync("https://localhost:44315/Auth/Auth", content);
+        Token = await response.Content.ReadAsStringAsync();
+        tokenService.Token = Token;
+        var contentToken = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("token", Token)});
+        var response1 = await Http.PostAsync("https://localhost:44315/Auth/GetAccessLevel", contentToken);
+        Level = await response1.Content.ReadAsStringAsync();
+        if(int.Parse(Level) ==1)
+        {
+            UriHelper.NavigateTo("/Lecturers/" + Token);
+        }
+        if (int.Parse(Level) == 2)
+        {
+            UriHelper.NavigateTo("/Logged/" + Token);
+        }
+        else
+        {
+            Level = "Dane są niepoprawne";
+        }
+
+
+    }
+    
+            }

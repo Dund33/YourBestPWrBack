@@ -1,0 +1,63 @@
+﻿@page "/Users/{token}"
+@inject HttpClient Http
+@inject TokenService token
+@inject NavigationManager NavigationManager
+@using Models
+@using Services
+<EditForm Model="@UserNew" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label for="username">Nazwa użytkownika</label>
+    
+    <InputText id="UserName" @bind-Value="UserNew.UserName" />
+    <label for="password">Hasło</label>
+    <InputText id="PasswordHash" @bind-Value="UserNew.PasswordHash" />
+    <label for="access">Rodzaj użytkownia</label>
+    <InputSelect id="access" @bind-Value="UserNew.AccessType">    
+        <option>Basic</option>
+        <option>User</option>
+        <option>Admin</option>
+    </InputSelect>
+    <button type="submit">Dodaj</button>
+</EditForm>
+<div>
+    @Result
+</div>
+
+
+
+
+
+@code {
+    public User UserNew { get; init; } = new User();
+   // public string UserName { get; set; }
+    public string Password { get; set; }
+    public AccessType Access { get; set; }
+    [Parameter]
+    public string Token { get; set; }
+    public string tokenNew;
+    public string Result { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        tokenNew = Token;
+    }
+    public async Task HandleValidSubmit()
+    {
+
+        var content = new FormUrlEncodedContent(new[]
+        {
+                new KeyValuePair<string, string>("PasswordHash", UserNew.PasswordHash.GetHashCode().ToString()),
+                new KeyValuePair<string, string>("UserName", UserNew.UserName),
+                new KeyValuePair<string, string>("AccessLevel", UserNew.AccessType.ToString()),
+                new KeyValuePair<string, string>("Id", "1"),
+                new KeyValuePair<string, string>("token", tokenNew)
+
+        });
+
+        using var response = await Http.PostAsync("https://localhost:44315/Opinions/AddUser", content);
+        Result = response.ToString();
+
+
+    }
+}
